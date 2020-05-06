@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 void main() => runApp(MyApp());
 
@@ -12,23 +13,41 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: title),
+      home: countDownTimer(title: title),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class countDownTimer extends StatefulWidget {
+  countDownTimer({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _countDownTimerState createState() => _countDownTimerState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  String _counter = "03:00:00";
+class _countDownTimerState extends State<countDownTimer> {
+  int _counter = 180;
 
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
 
+  void startTimer() {
+    Timer.periodic(Duration(seconds: 1),
+        (Timer timer) => setState(
+            () {
+              if(_counter < 1) {
+                timer.cancel();
+              } else {
+                _counter = _counter - 1;
+              }
+            },
+        ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              '03:00:00',
+              '$_counter',
               style: Theme.of(context).textTheme.display3,
             ),
             Container(
