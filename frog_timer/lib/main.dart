@@ -63,7 +63,7 @@ class _CountDownTimerState extends State<CountDownTimer> with TickerProviderStat
   Image get characterImage {
     Duration duration = controller.duration * controller.value;
     Image image;
-    if(duration.inMinutes == 2) {
+    if(duration.inMinutes == 2 || duration.inMinutes == 3) {
       image = images[0];
     } else if(duration.inMinutes == 1) {
       image = images[1];
