@@ -26,13 +26,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  String _counter = "03:00:00";
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +42,31 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
+              '03:00:00',
+              style: Theme.of(context).textTheme.display3,
             ),
-            Image.asset('images/otamajakushi1.png')
+            Container(
+              width: 250,
+              height: 250,
+              child: Image.asset(
+                'images/otamajakushi1.png',
+                fit: BoxFit.contain,
+              ),
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem> [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.arrow_right),
+            title: Text('スタート'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.cached),
+            title: Text('リセット'),
+          ),
+        ],
       ),
     );
   }
