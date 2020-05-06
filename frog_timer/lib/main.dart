@@ -127,6 +127,9 @@ class _CountDownTimerState extends State<CountDownTimer> with TickerProviderStat
                           : controller.value);
                 }
               },
+              onDoubleTap: () {
+                controller.reset();
+              },
             )
           ],
         ),
