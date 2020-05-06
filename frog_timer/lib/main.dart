@@ -5,7 +5,7 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   final String title = "げこげこ3分タイマー";
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,20 +13,20 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: countDownTimer(title: title),
+      home: CountDownTimer(title: title),
     );
   }
 }
 
-class countDownTimer extends StatefulWidget {
-  countDownTimer({Key key, this.title}) : super(key: key);
+class CountDownTimer extends StatefulWidget {
+  CountDownTimer({Key key, this.title}) : super(key: key);
   final String title;
 
   @override
-  _countDownTimerState createState() => _countDownTimerState();
+  _CountDownTimerState createState() => _CountDownTimerState();
 }
 
-class _countDownTimerState extends State<countDownTimer> {
+class _CountDownTimerState extends State<CountDownTimer> {
   int _counter = 180;
 
   @override
