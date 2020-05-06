@@ -27,37 +27,64 @@ class CountDownTimer extends StatefulWidget {
 }
 
 class _CountDownTimerState extends State<CountDownTimer> with TickerProviderStateMixin{
-  int _counter = 180;
   AnimationController controller;
-//  var _remainingTime = "3:00";
+  final images = <Image>[
+    Image.asset(
+      'images/otamajakushi1.png',
+      width: 250,
+      height: 250,
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'images/otamajakushi2.png',
+      width: 250,
+      height: 250,
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'images/kaeru1.png',
+      width: 250,
+      height: 250,
+      fit: BoxFit.contain,
+    ),
+    Image.asset(
+      'images/kaeru2.png',
+      width: 250,
+      height: 250,
+      fit: BoxFit.contain,
+    )
+  ];
 
   String get timerString {
     Duration duration = controller.duration * controller.value;
     return '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
   }
 
+  Image get characterImage {
+    Duration duration = controller.duration * controller.value;
+    Image image;
+    if(duration.inMinutes == 2) {
+      image = images[0];
+    } else if(duration.inMinutes == 1) {
+      image = images[1];
+    } else if(duration.inMinutes == 0) {
+      if(duration.inSeconds > 0) {
+        image = images[2];
+      } else {
+        image = images[3];
+      }
+    }
+    return image;
+  }
+
   @override
   void initState() {
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 100)
+      duration: Duration(seconds: 180)
     );
     super.initState();
   }
-
-//  void startTimer() {
-//    Timer.periodic(Duration(seconds: 1),
-//      (Timer timer) => setState(
-//        () {
-//          if(_counter < 1) {
-//            timer.cancel();
-//          } else {
-//            _counter = _counter - 1;
-//          }
-//        },
-//      ),
-//    );
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,22 +102,20 @@ class _CountDownTimerState extends State<CountDownTimer> with TickerProviderStat
               builder: (BuildContext context, Widget child) {
                 return Text(
                   '$timerString',
-                  style: Theme.of(context).textTheme.display3,
+                  style: Theme.of(context).textTheme.display4,
                 );
               },
-//              child: Text(
-//                '$timerString',
-//                style: Theme.of(context).textTheme.display3,
-//              ),
             ),
             InkWell(
               child: Container(
                 width: 250,
                 height: 250,
-                child: Image.asset(
-                  'images/otamajakushi1.png',
-                  fit: BoxFit.contain,
-                )
+                child: AnimatedBuilder(
+                  animation: controller,
+                  builder: (BuildContext context, Widget child) {
+                    return characterImage;
+                  },
+                ),
               ),
               onTap: () {
                 if (controller.isAnimating) {
