@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 void main() => runApp(MyApp());
 
@@ -117,34 +116,62 @@ class _CountDownTimerState extends State<CountDownTimer> with TickerProviderStat
                   },
                 ),
               ),
-              onTap: () {
-                if (controller.isAnimating) {
-                  controller.stop(canceled: true);
-                } else {
-                  controller.reverse(
-                      from: controller.value == 0.0
-                          ? 1.0
-                          : controller.value);
-                }
-              },
-              onDoubleTap: () {
-                controller.reset();
-              },
-            )
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 30.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  InkWell(
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      margin: EdgeInsets.only(right: 20.0),
+                      child: Icon(
+                        Icons.arrow_right,
+                        color: Colors.white,
+                        size: 50.0,
+                      ),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onTap: (){
+                      if (controller.isAnimating) {
+                        controller.stop(canceled: true);
+                      } else {
+                        controller.reverse(
+                            from: controller.value == 0.0
+                                ? 1.0
+                                : controller.value);
+                      }
+                    },
+                  ),
+                  InkWell(
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      margin: EdgeInsets.only(left: 20.0),
+                      child: Icon(
+                        Icons.cached,
+                        color: Colors.white,
+                        size: 50.0,
+                      ),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onTap: (){
+                      controller.reset();
+                    },
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem> [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.arrow_right),
-            title: Text('スタート'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.cached),
-            title: Text('リセット'),
-          ),
-        ],
       ),
     );
   }
