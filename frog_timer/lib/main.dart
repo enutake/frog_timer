@@ -27,6 +27,7 @@ class CountDownTimer extends StatefulWidget {
 
 class _CountDownTimerState extends State<CountDownTimer> with TickerProviderStateMixin{
   AnimationController controller;
+  AnimationController buttoncontroller;
   final images = <Image>[
     Image.asset(
       'images/otamajakushi1.png',
@@ -82,12 +83,16 @@ class _CountDownTimerState extends State<CountDownTimer> with TickerProviderStat
       vsync: this,
       duration: Duration(seconds: 180)
     );
+    buttoncontroller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300)
+    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
+    var isPlaying = false;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -124,20 +129,27 @@ class _CountDownTimerState extends State<CountDownTimer> with TickerProviderStat
                 children: <Widget>[
                   InkWell(
                     child: Container(
-                      width: 100,
-                      height: 100,
-                      margin: EdgeInsets.only(right: 20.0),
-                      child: Icon(
-                        Icons.arrow_right,
-                        color: Colors.white,
-                        size: 50.0,
-                      ),
+                      padding: const EdgeInsets.all(25.0),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.blue,
                       ),
+                      child: AnimatedIcon(
+                        icon: AnimatedIcons.play_pause,
+                        color: Colors.white,
+                        size: 50.0,
+                        progress: buttoncontroller,
+                      ),
                     ),
-                    onTap: (){
+                    onTap: () async {
+                      if(!isPlaying) {
+                        await buttoncontroller.forward();
+                        isPlaying = true;
+                      } else {
+                        await buttoncontroller.reverse();
+                        isPlaying = false;
+                      }
+                      
                       if (controller.isAnimating) {
                         controller.stop(canceled: true);
                       } else {
@@ -148,24 +160,24 @@ class _CountDownTimerState extends State<CountDownTimer> with TickerProviderStat
                       }
                     },
                   ),
-                  InkWell(
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      margin: EdgeInsets.only(left: 20.0),
+                  Container(
+                    width: 100,
+                    height: 100,
+                    margin: EdgeInsets.only(left: 20.0),
+                    child: InkWell(
                       child: Icon(
                         Icons.cached,
                         color: Colors.white,
                         size: 50.0,
                       ),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.blue,
-                      ),
+                      onTap: (){
+                        controller.reset();
+                      },
                     ),
-                    onTap: (){
-                      controller.reset();
-                    },
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blue,
+                    ),
                   ),
                 ],
               ),
