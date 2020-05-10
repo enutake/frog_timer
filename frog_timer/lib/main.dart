@@ -88,6 +88,7 @@ class _CountDownTimerState extends State<CountDownTimer> with TickerProviderStat
       duration: Duration(milliseconds: 300)
     );
     super.initState();
+    controller.value = 1.0;
   }
 
   @override
